@@ -1,0 +1,69 @@
+<!doctype html>
+
+<html>
+
+<head>
+    <title>Tutorial 1: Getting Started</title>
+    <script src="cytoscape.min.js"></script>
+</head>
+
+<style>
+    #cy {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+    }
+</style>
+
+<body>
+    <div id="cy"></div>
+    <script src='load_elements.js'></script>
+    <script>
+
+        var cy = cytoscape({
+            container: document.getElementById('cy'),
+            elements: json,
+
+            style: [
+            {
+                selector: 'node',
+                style: {
+                    shape: 'hexagon',
+                    label: 'data(shared_name)',
+                    width: 'mapData(EdgeCount, 0, 9, 27, 100)',
+                    height: 'mapData(EdgeCount, 0, 9, 27, 100)'
+                }
+            },
+            {
+                selector: 'node[type="Legislative"]',
+                style: {
+                    'background-color': 'blue'
+                }
+            },
+            {
+                selector: 'node[type="Executive"]',
+                style: {
+                    'background-color': 'green'
+                }
+            },
+            {
+                selector: 'node[type="Researcher-generated"]',
+                style: {
+                    'background-color': 'red'
+                }
+            },
+            ],
+            layout: {name: 'circle'}
+          });
+        cy.on('click', 'node', function(evt){
+            var pos = cy.getElementById(evt.target.id()).position();
+            cy.zoom({
+                level: 1.5,
+                position: pos
+            })
+    });
+    </script>
+</body>
+</html>
