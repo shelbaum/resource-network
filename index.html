@@ -25,7 +25,6 @@
         var cy = cytoscape({
             container: document.getElementById('cy'),
             elements: json,
-
             style: [
             {
                 selector: 'node',
@@ -54,16 +53,24 @@
                     'background-color': 'red'
                 }
             },
+            {
+                selector: '.unfocused',
+                style: {
+                    display: 'none'
+                }
+            }
             ],
             layout: {name: 'circle'}
           });
+
         cy.on('click', 'node', function(evt){
-            var pos = cy.getElementById(evt.target.id()).position();
-            cy.zoom({
-                level: 1.5,
-                position: pos
-            })
-    });
+            var connections = evt.target.closedNeighborhood().union(cy.edges());
+            connections.removeClass('unfocused');
+            cy.fit(connections, 0);
+            connections.absoluteComplement().addClass('unfocused')
+        });
+
+
     </script>
 </body>
 </html>
