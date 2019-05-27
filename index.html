@@ -20,48 +20,15 @@
 <body>
     <div id="cy"></div>
     <script src='load_elements.js'></script>
+    <script src='stylesheet.js'></script>
     <script>
 
         var cy = cytoscape({
             container: document.getElementById('cy'),
             elements: json,
-            style: [
-            {
-                selector: 'node',
-                style: {
-                    shape: 'hexagon',
-                    label: 'data(shared_name)',
-                    width: 'mapData(EdgeCount, 0, 9, 27, 100)',
-                    height: 'mapData(EdgeCount, 0, 9, 27, 100)'
-                }
-            },
-            {
-                selector: 'node[type="Legislative"]',
-                style: {
-                    'background-color': 'blue'
-                }
-            },
-            {
-                selector: 'node[type="Executive"]',
-                style: {
-                    'background-color': 'green'
-                }
-            },
-            {
-                selector: 'node[type="Researcher-generated"]',
-                style: {
-                    'background-color': 'red'
-                }
-            },
-            {
-                selector: '.unfocused',
-                style: {
-                    display: 'none'
-                }
-            }
-            ],
+            style: stylesheet,
             layout: {name: 'circle'}
-          });
+        });
 
         cy.on('click', 'node', function(evt){
             var connections = evt.target.closedNeighborhood().union(cy.edges());
